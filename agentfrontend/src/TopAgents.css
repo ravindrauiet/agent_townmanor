@@ -1,0 +1,27 @@
+.top-agents {
+  width: 25%;
+  padding: 20px;
+  margin: 5px;
+}
+
+.top-agents ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.top-agents li {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  margin: 10px;
+  border-radius: 20px;
+}
+
+.rank-1 { background-color: gold; }
+.rank-2 { background-color: silver; }
+.rank-3 { background-color: rgb(205, 127, 50); }
+
+.index {
+  margin: 2px;
+  padding: 2px;
+}

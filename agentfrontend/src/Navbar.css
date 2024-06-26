@@ -1,0 +1,29 @@
+.navbar-brand {
+    font-weight: bold;
+  }
+  
+  .nav-link {
+    margin-right: 15px;
+    color: #000;
+  }
+  
+  .btn-outline-secondary {
+    color: #000;
+    border-color: #000;
+  }
+  
+  .btn-danger {
+    background-color: #ff0000;
+    border-color: #ff0000;
+  }
+  
+  .btn-danger::after {
+    content: 'Free';
+    font-size: 0.75rem;
+    color: white;
+    background: green;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.2rem;
+    margin-left: 0.3rem;
+  }
+  

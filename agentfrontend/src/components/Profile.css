@@ -1,0 +1,46 @@
+.container {
+    margin-top: 20px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-subtitle {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.card-text div {
+    margin-top: 10px;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0;
+    color: #000;
+    font-weight: bold;
+}
+
+.nav-pills .nav-link.active {
+    background-color: #007bff;
+}
+
+.tab-content {
+    padding-top: 20px;
+}
+
+.list-group-item {
+    font-size: 1rem;
+}
+
+.card-body p {
+    margin: 0;
+}
+
+.agent-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-left: 45%;
+  }
