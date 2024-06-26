@@ -158,6 +158,24 @@ app.get('/agents/:id', (req, res) => {
     res.status(200).json(result[0]);
   });
 });
+
+app.post('/updateagent/:id', upload.single('file'), (req, res) => {
+  const agentIndex = agents.findIndex(a => a.id === req.params.id);
+  if (agentIndex > -1) {
+    const agent = agents[agentIndex];
+    const updatedAgent = {
+      ...agent,
+      ...req.body,
+      file: req.file ? req.file.path : agent.file
+    };
+    agents[agentIndex] = updatedAgent;
+    res.json({ message: 'Agent updated successfully', agent: updatedAgent });
+  } else {
+    res.status(404).json({ message: 'Agent not found' });
+  }
+});
+
+
 // Get a single user by ID
 app.get('/users/:id', (req, res) => {
   const { id } = req.params;
