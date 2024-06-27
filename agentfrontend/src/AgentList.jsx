@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import './AgentList.css';
 import AgentCard from './AgentCard';
 import TopAgents from './TopAgents';
@@ -6,18 +7,32 @@ import TopAgents from './TopAgents';
 function AgentList() {
   const [agents, setAgents] = useState([]);
   const [topAgents, setTopAgents] = useState([]);
+  const location = useLocation();
+
+  // Utility function to parse query parameters
+  const getQueryParams = (queryString) => {
+    return new URLSearchParams(queryString);
+  };
 
   useEffect(() => {
-    fetch('http://localhost:3030/')
+    const params = getQueryParams(location.search);
+    const city = params.get('city');
+    const locality = params.get('locality');
+    const rent = params.get('rent');
+    const newProperty = params.get('newProperty');
+    const resale = params.get('resale');
+
+    fetch(`http://localhost:3030/agents?city=${city}&locality=${locality}&rent=${rent}&newProperty=${newProperty}&resale=${resale}`)
       .then(response => response.json())
       .then(data => setAgents(data))
       .catch(error => console.error('Error fetching agents:', error));
-  }, []);
+  }, [location.search]);
+
   useEffect(() => {
     fetch('http://localhost:3030/topagents')
       .then(response => response.json())
       .then(data => setTopAgents(data))
-      .catch(error => console.error('Error fetching agents:', error));
+      .catch(error => console.error('Error fetching top agents:', error));
   }, []);
 
   return (

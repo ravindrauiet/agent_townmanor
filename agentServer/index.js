@@ -132,15 +132,32 @@ app.get('/topagents', (req, res) => {
   });
 });
 
+// app.get('/agents', (req, res) => {
+//   const sql = 'SELECT * FROM agentlist';
+//   db.query(sql, (err, results) => {
+//     if (err) {
+//       console.error('Database error:', err);
+//       return res.status(500).send(err);
+//     }
+//     res.status(200).json(results);
+//   });
+// });
+
+
 app.get('/agents', (req, res) => {
-  const sql = 'SELECT * FROM agentlist';
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.error('Database error:', err);
-      return res.status(500).send(err);
-    }
-    res.status(200).json(results);
+  const { city, locality, rent, newProperty, resale } = req.query;
+
+  const filteredAgents = agents.filter(agent => {
+    return (
+      agent.city.toLowerCase() === city.toLowerCase() &&
+      agent.locality.toLowerCase() === locality.toLowerCase() &&
+      agent.rent === parseInt(rent) &&
+      agent.newProperty === parseInt(newProperty) &&
+      agent.resale === parseInt(resale)
+    );
   });
+
+  res.json(filteredAgents);
 });
 
 // Get a single agent by ID
