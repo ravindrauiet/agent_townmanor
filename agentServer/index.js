@@ -132,32 +132,22 @@ app.get('/topagents', (req, res) => {
   });
 });
 
-// app.get('/agents', (req, res) => {
-//   const sql = 'SELECT * FROM agentlist';
-//   db.query(sql, (err, results) => {
-//     if (err) {
-//       console.error('Database error:', err);
-//       return res.status(500).send(err);
-//     }
-//     res.status(200).json(results);
-//   });
-// });
-
-
+// Get filtered agents
 app.get('/agents', (req, res) => {
-  const { city, locality, rent, newProperty, resale } = req.query;
+  const { city,sector, rent, newProperty, resale } = req.query;
 
-  const filteredAgents = agents.filter(agent => {
-    return (
-      agent.city.toLowerCase() === city.toLowerCase() &&
-      agent.locality.toLowerCase() === locality.toLowerCase() &&
-      agent.rent === parseInt(rent) &&
-      agent.newProperty === parseInt(newProperty) &&
-      agent.resale === parseInt(resale)
-    );
+  // Construct the SQL query with the provided filters
+  let sql = 'SELECT * FROM agentlist WHERE city = ? AND sector = ? AND rent = ? AND newProperty = ? AND resale = ?';
+  const queryParams = [city, sector, rent, newProperty, resale];
+
+  db.query(sql, queryParams, (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).send(err);
+    }
+    console.log(results);
+    res.status(200).json(results);
   });
-
-  res.json(filteredAgents);
 });
 
 // Get a single agent by ID
@@ -190,56 +180,6 @@ app.post('/updateagent/:id', upload.single('file'), (req, res) => {
   } else {
     res.status(404).json({ message: 'Agent not found' });
   }
-});
-
-
-// Get a single user by ID
-app.get('/users/:id', (req, res) => {
-  const { id } = req.params;
-  const sql = 'SELECT * FROM users WHERE id = ?';
-  db.query(sql, [id], (err, result) => {
-    if (err) {
-      console.error('Database error:', err);
-      return res.status(500).send(err);
-    }
-    if (result.length === 0) {
-      return res.status(404).send('User not found');
-    }
-    res.status(200).json(result[0]);
-  });
-});
-
-// Update a user by ID
-app.put('/users/:id', (req, res) => {
-  const { id } = req.params;
-  const updateUser = req.body;
-  const sql = 'UPDATE users SET ? WHERE id = ?';
-  db.query(sql, [updateUser, id], (err, result) => {
-    if (err) {
-      console.error('Database error:', err);
-      return res.status(500).send(err);
-    }
-    if (result.affectedRows === 0) {
-      return res.status(404).send('User not found');
-    }
-    res.status(200).send('User updated successfully');
-  });
-});
-
-// Delete a user by ID
-app.delete('/users/:id', (req, res) => {
-  const { id } = req.params;
-  const sql = 'DELETE FROM users WHERE id = ?';
-  db.query(sql, [id], (err, result) => {
-    if (err) {
-      console.error('Database error:', err);
-      return res.status(500).send(err);
-    }
-    if (result.affectedRows === 0) {
-      return res.status(404).send('User not found');
-    }
-    res.status(200).send('User deleted successfully');
-  });
 });
 
 app.listen(3030, () => {
