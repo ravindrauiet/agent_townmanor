@@ -24,7 +24,7 @@ const EditForm = ({ agentId }) => {
     sector: '',
     phone: '',
     numberOfEmployees: '',
-    native: ''
+    about:''
   });
 
   useEffect(() => {
@@ -129,9 +129,10 @@ const EditForm = ({ agentId }) => {
     formDataObj.append('phone', formData.phone);
     formDataObj.append('numberOfEmployees', formData.numberOfEmployees);
     formDataObj.append('nativePlace', formData.nativePlace);
+    formDataObj.append('nativePlace', formData.about);
     if (file) {
       formDataObj.append('file', file);
-    }
+    } 
 
     try {
       const response = await fetch(`http://localhost:3030/updateagent/${agentId}`, {
@@ -239,9 +240,17 @@ const EditForm = ({ agentId }) => {
               <label>Number of Employees</label>
               <input type="text" className="form-control" name="numberOfEmployees" placeholder="Number of Employees" value={formData.numberOfEmployees} onChange={handleInputChange} required />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label>Native Place</label>
               <input type="text" className="form-control" name="nativePlace" placeholder="Native Place" value={formData.nativePlace} onChange={handleInputChange} required />
+            </div> */}
+            <div className="form-group">
+              <label>Team Member Name</label>
+              <input type="text" className="form-control" name="Team Member Name" placeholder="About" value={formData.about} onChange={handleInputChange} required />
+            </div>
+            <div className="form-group">
+              <label>About Your Self</label>
+              <input type="text" className="form-control" name="nativePlace" placeholder="About" value={formData.about} onChange={handleInputChange} required />
             </div>
             <button type="submit" className="btn btn-primary btn-block">Update Agent</button>
           </form>

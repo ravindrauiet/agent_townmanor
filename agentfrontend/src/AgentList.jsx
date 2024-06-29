@@ -21,12 +21,16 @@ function AgentList() {
     const rent = params.get('rent');
     const newProperty = params.get('newProperty');
     const resale = params.get('resale');
+    
+    // Encode the locality parameter
+    const encodedLocality = encodeURIComponent(locality);
+    // console.log(`http://localhost:3030/agents?city=${city}&sector=${encodedLocality}&rent=${rent}&newProperty=${newProperty}&resale=${resale}`);
 
-    fetch(`http://localhost:3030/agents?city=${city}&locality=${locality}&rent=${rent}&newProperty=${newProperty}&resale=${resale}`)
+    fetch(`http://localhost:3030/agents?city=${city}&sector=${encodedLocality}&rent=${rent}&newProperty=${newProperty}&resale=${resale}`)
       .then(response => response.json())
       .then(data => setAgents(data))
       .catch(error => console.error('Error fetching agents:', error));
-  }, [location.search]);
+  }, []);
 
   useEffect(() => {
     fetch('http://localhost:3030/topagents')

@@ -134,11 +134,33 @@ app.get('/topagents', (req, res) => {
 
 // Get filtered agents
 app.get('/agents', (req, res) => {
-  const { city,sector, rent, newProperty, resale } = req.query;
+  const { city, sector, rent, newProperty, resale } = req.query;
 
-  // Construct the SQL query with the provided filters
-  let sql = 'SELECT * FROM agentlist WHERE city = ? AND sector = ? AND rent = ? AND newProperty = ? AND resale = ?';
-  const queryParams = [city, sector, rent, newProperty, resale];
+  // Initialize arrays to store conditions and parameters
+  let conditions = [];
+  let queryParams = [city, sector];
+
+  // Check each filter parameter and include only those with value 1
+  if (rent === '1') {
+    conditions.push('rent = ?');
+    queryParams.push(rent);
+  }
+  if (newProperty === '1') {
+    conditions.push('newProperty = ?');
+    queryParams.push(newProperty);
+  }
+  if (resale === '1') {
+    conditions.push('resale = ?');
+    queryParams.push(resale);
+  }
+
+  // Construct the SQL query based on included conditions
+  let sql = 'SELECT * FROM agentlist WHERE city = ? AND sector = ?';
+  if (conditions.length > 0) {
+    sql += ' AND ' + conditions.join(' AND ');
+  }
+
+  console.log(sql, queryParams);
 
   db.query(sql, queryParams, (err, results) => {
     if (err) {
@@ -149,6 +171,7 @@ app.get('/agents', (req, res) => {
     res.status(200).json(results);
   });
 });
+
 
 // Get a single agent by ID
 app.get('/agents/:id', (req, res) => {

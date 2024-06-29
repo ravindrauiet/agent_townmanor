@@ -82,14 +82,15 @@ function AgentForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Submitting form with data:', formData);
+    // console.log('Submitting form with data:', formData);
     const queryParams = new URLSearchParams({
       city: formData.city,
-      locality: encodeURIComponent(formData.locality),
+      locality: formData.sector,
       rent: formData.propertyType === 'rent' ? 1 : 0,
       newProperty: formData.propertyType === 'newProperty' ? 1 : 0,
       resale: formData.propertyType === 'resale' ? 1 : 0
     }).toString();
+    // console.log(queryParams);
     navigate(`/agentlist?${queryParams}`);
   };
 
