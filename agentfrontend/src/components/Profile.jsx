@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, ListGroup, ListGroupItem, Container, Row, Col, Tab, Nav } from 'react-bootstrap';
+import Rating from 'react-rating-stars-component';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Profile.css'; // Custom CSS for styling
 
 const Profile = () => {
     const { id } = useParams();
-    const [agent, setAgent] = useState(null);
+    const [agent, setAgent] = useState();
+    const [rating, setRating] = useState(0);
 
     useEffect(() => {
         // Fetch agent data by ID (mocked here, replace with actual data fetch)
@@ -15,6 +17,11 @@ const Profile = () => {
             .then(data => setAgent(data))
             .catch(error => console.error('Error fetching agent:', error));
     }, [id]);
+
+    const handleRating = (newRating) => {
+        setRating(newRating);
+        // Optionally, send the rating to the server or perform other actions
+    };
 
     if (!agent) return <p>Loading...</p>;
 
@@ -88,6 +95,13 @@ const Profile = () => {
                             <Tab.Pane eventKey="reviews">
                                 <Card.Body>
                                     <Card.Title>Reviews</Card.Title>
+                                    <Rating 
+                                        count={5}
+                                        value={rating}
+                                        onChange={handleRating}
+                                        size={24}
+                                        activeColor="#ffd700"
+                                    />
                                     <p>No reviews yet.</p>
                                 </Card.Body>
                             </Tab.Pane>
